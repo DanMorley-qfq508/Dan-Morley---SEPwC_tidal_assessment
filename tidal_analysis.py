@@ -2,10 +2,31 @@
 
 # import the modules you need here
 import argparse
+import pandas as pd
+
+
 
 def read_tidal_data(filename):
+    """
+    Reads tidal data from a text file into a pandas DataFrame.
 
-    return 0
+    Args:
+        filename (str): The path to the tidal data file.
+
+    Returns:
+        pandas.DataFrame: A DataFrame with the tidal data, indexed by datetime.
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+    """
+    try:
+        df = pd.read_csv(filename, delim_whitespace=True, header=None, names=['Date', 'Time', 'Sea Level'], on_bad_lines='skip')
+        df['Datetime'] = pd.to_datetime(df['Date'] + ' ' + df['Time'])
+        df = df.set_index('Datetime')
+        df = df.drop(columns=['Date', 'Time'])
+        return df
+    except FileNotFoundError:
+        raise FileNotFoundError(f"File not found: {filename}")
     
 def extract_single_year_remove_mean(year, data):
    
@@ -58,6 +79,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     dirname = args.directory
     verbose = args.verbose
+
     
 
 
