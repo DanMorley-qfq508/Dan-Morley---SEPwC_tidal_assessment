@@ -8,8 +8,6 @@ from pylint.reporters import CollectingReporter
 from dataclasses import asdict
 import pandas as pd
 import numpy as np
-import pytz
-import datetime
 
 class TestTidalAnalysis():
     
@@ -182,4 +180,5 @@ class TestRegression():
         from subprocess import run
         result = run(["python3","tidal_analysis.py","data/dover"], capture_output=True, check=True)
         assert len(result.stdout) > 25
+
 
